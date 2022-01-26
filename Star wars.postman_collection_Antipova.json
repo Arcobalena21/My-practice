@@ -1,0 +1,529 @@
+{
+	"info": {
+		"_postman_id": "1fe01821-eef1-4e1a-b293-d261d1290b4e",
+		"name": "Star wars",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Task 1",
+			"item": [
+				{
+					"name": "Find 1st person",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Extract Luke's homeworld\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"homeworld\", jsonData.homeworld);    ",
+									"});",
+									"pm.test(\"Person id=1 is Luke Skywalker\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Luke Skywalker\"); ",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/people/1/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"people",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Luke's homeworld",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Homeworld's name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Tatooine\");",
+									"});",
+									"pm.test(\"Homeworld's population\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.population).to.eql(\"200000\");",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{homeworld}}",
+							"host": [
+								"{{homeworld}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tatooine 1st film",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tatooine 1st film is A New Hope\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"A New Hope\");",
+									"});",
+									"pm.test(\"Affiliation of film to Tatooine\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.planets).to.include (pm.collectionVariables.get(\"homeworld\"));",
+									"});",
+									"pm.test(\"Affiliation of film to Luke Skywalker\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.characters).to.include (pm.collectionVariables.get(\"lukeskywalker\"));",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/films/1/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"films",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task 2",
+			"item": [
+				{
+					"name": "Ship with name Republic attack cruiser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Extract film_Republic attack cruiser\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"films\", jsonData.films);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/starships/?search=Republic attack cruiser",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"starships",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Republic attack cruiser"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Film_Republic attack cruiser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check release date film\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.release_date).to.eql(\"2005-05-19\");",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{films}}",
+							"host": [
+								"{{films}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revenge of the Sith film",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Seeking films with the same title\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"Revenge of the Sith\");",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{films}}",
+							"host": [
+								"{{films}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"films\", \"https://swapi.dev/api/films/6/\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Task 3",
+			"item": [
+				{
+					"name": "Vehicle with name T-16 skyhopper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"vehicle\", \"https://swapi.dev/api/vehicles/6/\");",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/vehicles/?search=T-16",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"vehicles",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "T-16"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Max speed for T-16 skyhopper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"T-16 skyhopper\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"T-16 skyhopper\");",
+									"});",
+									"pm.test(\"Test max speed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.max_atmosphering_speed).to.eql(\"1200\");",
+									"});",
+									"pm.test(\"Vehicle film\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"vehiclefilm\", jsonData.films );",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vehicle}}",
+							"host": [
+								"{{vehicle}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vehicle film",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Species_biggest by id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"species\", jsonData.species[4]);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vehiclefilm}}",
+							"host": [
+								"{{vehiclefilm}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Species biggest by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Name of species\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"Hutt\");",
+									"});",
+									"pm.test(\"Extract people concerned to species\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.get(\"people\");",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{species}}",
+							"host": [
+								"{{species}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "People in species_eye color",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Eyes color\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.eye_color).to.eql(\"orange\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{people}}",
+							"host": [
+								"{{people}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.collectionVariables.set(\"vehicle\", \"https://swapi.dev/api/vehicles/6/\");"
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.collectionVariables.set(\"baseurl\", \"https://swapi.dev/api/\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": ""
+		},
+		{
+			"key": "homeworld",
+			"value": ""
+		},
+		{
+			"key": "lukeskywalker",
+			"value": ""
+		},
+		{
+			"key": "release_date",
+			"value": ""
+		},
+		{
+			"key": "vehicle",
+			"value": ""
+		},
+		{
+			"key": "vehiclefilm",
+			"value": ""
+		},
+		{
+			"key": "species",
+			"value": ""
+		},
+		{
+			"key": "people",
+			"value": ""
+		},
+		{
+			"key": "films",
+			"value": ""
+		}
+	]
+}
